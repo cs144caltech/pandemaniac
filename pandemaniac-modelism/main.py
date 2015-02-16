@@ -6,6 +6,7 @@ and to the database.
 """
 
 import argparse
+from collections import OrderedDict
 import json
 import os
 from pymongo import MongoClient
@@ -58,9 +59,10 @@ def read_nodes(graph, valid_nodes, teams):
   graph: The corresponding graph.
   teams: The list of teams.
   returns: A dictionary containing the key as the team and the value as the
-           list of chosen nodes.
+           array of list of chosen nodes.
   """
   team_nodes = {}
+  seed_nodes = int(graph.split('.')[1])
 
   for team in teams:
     # Gets this team's submission by getting the most recent submission for
@@ -73,16 +75,21 @@ def read_nodes(graph, valid_nodes, teams):
       team_file = open(team_dir + team_file_name, "r")
 
       # Read in all of the nodes and filter out spaces and newlines.
-      nodes = filter(lambda x: x, \
+      entire_nodes = filter(lambda x: x, \
         [x.strip().replace("\r", "") for x in team_file.read().split("\n")])
+      nodes_list = []
+      for i in range(GAMES):
+          nodes_list.append(entire_nodes[seed_nodes*i: seed_nodes*(i+1)-1])
       team_file.close()
 
       # The list of nodes a team submits should now be valid.
-      is_valid = reduce(lambda x, node: x and (node in valid_nodes), nodes)
-      if is_valid:
-        team_nodes[team] = nodes
-      else:
-        print "Nodes for team " + team + " are not valid."
+      team_nodes[team] = []
+      for nodes in nodes_list:
+        is_valid = reduce(lambda x, node: x and (node in valid_nodes), nodes)
+        if is_valid:
+          team_nodes[team].append(nodes)
+        else:
+          print "Nodes for team " + team + " are not valid."
 
     # If no file is found, then this team did not have a submission. They do
     # not get any nodes.
@@ -130,22 +137,35 @@ def do_main(graph, teams, model):
   # Create the adjacency list for the graph.
   adj_list = create_adj_list(graph)
   # Read in the node selection for each team.
-  team_nodes = read_nodes(graph, adj_list.keys(), teams)
+  team_nodes_list = read_nodes(graph, adj_list.keys(), teams)
 
   # Run the simulation and output the run to file.
-  simulation = Simulation(model, team_nodes, adj_list)
-  (output, results) = simulation.run()
+  total_results = OrderedDict()
+  total_scores = {team:0 for team in teams}
+
+  for i in range(GAMES):
+    team_nodes = {}
+    for team in team_nodes_list.keys():
+        team_nodes[team] = team_nodes_list[team][i]
+        print team, team_nodes[team]
+    simulation = Simulation(model, team_nodes, adj_list)
+    (output, results) = simulation.run()
+    total_results[str(i)] = results
+    for team in teams:
+      total_scores[team] += update_points(results)[team]
+
+  for team in teams:
+      total_scores[team] = round(total_scores[team],2)
   output_filename = graph + "-" + str(time.time()) + ".txt"
   output_file = open(OUTPUT_FOLDER + output_filename, "w")
-  output_file.write(str(json.dumps(output)))
+  output_file.write(str(json.dumps(total_results)))
   output_file.close()
 
   # Get the final results of teams to their nodes and update their points in
   # the database.
-  scores = update_points(results)
   db.test.runs.insert({ \
     "teams": teams, \
-    "scores": scores, \
+    "scores": total_scores, \
     "graph": graph, \
     "file": output_filename \
   })

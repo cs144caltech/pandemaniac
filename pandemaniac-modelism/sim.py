@@ -22,6 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 '''
 
 __author__ = "Angela Gong (anjoola@anjoola.com)"
+__editor__ = "Chung Eun Kim (ckkim@caltech.edu)"
 
 USAGE = '''
 ===========
@@ -29,15 +30,25 @@ USAGE = '''
 ===========
 
 >>> import sim
->>> sim.run([graph], [dict with keys as names and values as a list of nodes])
+>>> sim.run([graph], 
+            [dict with keys as names and values as a array of list of nodes],
+            [number of games, default value is 50])
 
 Returns a dictionary containing the names and the number of nodes they got.
 
 Example:
 >>> graph = {"2": ["6", "3", "7", "2"], "3": ["2", "7, "12"], ... }
->>> nodes = {"strategy1": ["1", "5"], "strategy2": ["5", "23"], ... }
->>> sim.run(graph, nodes)
->>> {"strategy1": 243, "strategy6": 121, "strategy2": 13}
+>>> nodes = {"strategy1": [["1", "5"], ["2", 6"], ... ] 
+             "strategy2": [["5", "23"], ["9" "10"], ... ] }
+>>> games = 50
+>>> sim.run(graph, nodes, games)
+>>> {1: ({"strategy1": 243, "strategy6": 121, ... }, 
+         {"strategy1": ["2", "6"], "strategy2": ["8", "9"], ... })
+     2: ({"strategy1": 250, "strategy5": 100, "strategy2": 11}, 
+         {"strategy1": ["5", "8"], "strategy2": ["10", "11"], ... })
+     ...
+     50: ({"strategy1": 280, "strategy5": 150, "strategy2": 5},
+          {"strategy1": ["9", "5"], "strategy2": ["6", "7"], ... })}
 
 Possible Errors:
 - KeyError: Will occur if any seed nodes are invalid (i.e. do not exist on the
@@ -47,20 +58,47 @@ Possible Errors:
 from collections import Counter, OrderedDict
 from copy import deepcopy
 from random import randint
+from random import choice
 
 
-def run(adj_list, node_mappings):
+def run(adj_list, node_mappings, games=50):
   """
   Function: run
   -------------
   Runs the simulation on a graph with the given node mappings.
 
   adj_list: A dictionary representation of the graph adjacencies.
-  node_mappings: A dictionary where the key is a name and the value is a list
-                 of seed nodes associated with that name.
+  node_mappings: A dictionary where the key is a name and the value is a array
+                 list of seed nodes associated with that name.
   """
-  results = run_simulation(adj_list, node_mappings)
+  results = []
+  for i in range(games):
+      mappings = choose_node_mappings(node_mappings, i)
+      res = run_simulation(adj_list, mappings)
+      results.append((res, mappings))
   return results
+
+
+def choose_node_mappings(node_mappings, i):
+  """
+  Function: choose_node_mappings
+  ------------------------------
+  Randomly chooses one mapping for each strategy and returns the dict of 
+  the list of seed noeds associated with each of them.
+
+  node_mappings: A dictionary where the key is a name and the value is a array
+                 list of seed nodes associated with that name.
+  
+  returns: A dictionary where the key is a name and the value is the list
+           of seed nodes associated with that name.
+  """
+  result = {}
+  for name in node_mappings.keys():
+      if i < len(node_mappings[name]):
+          result[name] = node_mappings[name][i]
+      else:
+          result[name] = []
+  return result
 
 
 def run_simulation(adj_list, node_mappings):
