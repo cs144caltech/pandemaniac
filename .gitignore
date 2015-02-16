@@ -80,3 +80,10 @@ Temporary Items
 *~
 *.swp
 *.swo
+
+# Server running
+*.pid
+*.out
+
+# Nodejs
+pandemaniac-graphui/node_modules/
