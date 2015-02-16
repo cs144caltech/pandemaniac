@@ -95,7 +95,8 @@ def read_nodes(graph, valid_nodes, teams):
     # not get any nodes.
     except (OSError, Exception, ValueError):
       team_nodes[team] = []
-
+  with open(DOWNLOAD_FOLDER + graph + '.json', 'w') as f:
+    f.write(json.dumps(team_nodes))
   return team_nodes
 
 

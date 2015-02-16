@@ -2,6 +2,7 @@
 GRAPH_FOLDER = "../pandemaniac-graphui/private/graphs/"
 TEAMS_FOLDER = "../pandemaniac-graphui/private/uploads/"
 OUTPUT_FOLDER = "../pandemaniac-graphui/private/runs/"
+DOWNLOAD_FOLDER = "../pandemaniac-graphui/public/download/"
 
 # MongoDB configuration.
 DB_SERVER = "localhost"
