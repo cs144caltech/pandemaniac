@@ -70,6 +70,8 @@ def read_nodes(graph, valid_nodes, teams):
     team_dir = TEAMS_FOLDER + team + "/"
     
     try:
+      print os.listdir(team_dir)
+      print type(graph)
       team_file_name = max([f for f in os.listdir(team_dir) \
         if f.startswith(graph)])
       team_file = open(team_dir + team_file_name, "r")
@@ -95,8 +97,9 @@ def read_nodes(graph, valid_nodes, teams):
     # not get any nodes.
     except (OSError, Exception, ValueError):
       team_nodes[team] = []
-  with open(DOWNLOAD_FOLDER + graph + '.json', 'w') as f:
-    f.write(json.dumps(team_nodes))
+  for t in filter(lambda x: not x.startswith("TA_"), teams):
+    with open(DOWNLOAD_FOLDER + '%s-%s.json' % (graph, t), 'w') as f:
+      f.write(json.dumps(team_nodes))
   return team_nodes
 
 
