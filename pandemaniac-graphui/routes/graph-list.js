@@ -42,6 +42,7 @@ module.exports = exports = function(db) {
                 return res.render('graph/dashboard', { matrix: matrix
                                                      , teams: teams
                                                      , categories: categories
+                                                     , selfteam: req.user
                                                      });
               }
 

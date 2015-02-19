@@ -13,14 +13,15 @@ def create_random_team(graph, num_nodes, name):
   graph_file = open(GRAPH_FOLDER + get_graph(graph), "r")
   adj_list = json.loads("".join(graph_file.readlines()))
   graph_file.close()
-  nodes = random.sample(adj_list.keys(), num_nodes)
+  nodes_list = [random.sample(adj_list.keys(), num_nodes) for j in range(GAMES)]
 
   # Write out to file.
   if not os.path.exists(TEAMS_FOLDER + name):
     os.makedirs(TEAMS_FOLDER + name)
   output = open(TEAMS_FOLDER + name + "/" + graph + "-" + str(num_nodes), "w")
-  for node in nodes:
-    output.write(str(node) + "\n")
+  for nodes in nodes_list:
+    for node in nodes:
+        output.write(str(node) + "\n")
   output.close()
 
 

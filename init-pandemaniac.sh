@@ -1,4 +1,5 @@
 rm -f pandemaniac-graphui/private/runs/*
+mkdir pandemaniac-graphui/public/download/
 find pandemaniac-graphui/private/uploads -mindepth 1 -maxdepth 1 -type d \
 				         -exec rm -rf '{}' +
 

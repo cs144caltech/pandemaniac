@@ -87,3 +87,6 @@ Temporary Items
 
 # Nodejs
 pandemaniac-graphui/node_modules/*
+
+# Mongodb config
+mongodb.conf

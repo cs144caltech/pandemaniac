@@ -2,6 +2,7 @@
 GRAPH_FOLDER = "../pandemaniac-graphui/private/graphs/"
 TEAMS_FOLDER = "../pandemaniac-graphui/private/uploads/"
 OUTPUT_FOLDER = "../pandemaniac-graphui/private/runs/"
+DOWNLOAD_FOLDER = "../pandemaniac-graphui/public/download/"
 
 # MongoDB configuration.
 DB_SERVER = "localhost"
@@ -10,8 +11,11 @@ DB_PORT = 27017
 # Maximum number of generations to run the simulation.
 MAX_ROUNDS = 100
 
+# Number of games in each round
+GAMES = 50
+
 # Points for places.
-POINTS = {1:20, 2:15, 3:12, 4:9, 5:6, 6:4, 7:2, 8:1}
+POINTS = {1:20/50.0, 2:15/50.0, 3:12/50.0, 4:9/50.0, 5:6/50.0, 6:4/50.0, 7:2/50.0, 8:1/50.0}
 
 # Graphs for each day.
 DAYS = {
@@ -19,16 +23,7 @@ DAYS = {
     # ([graph name], [number of players], [number of nodes]) OR
     # ([graph name], [team name], [number of nodes])
     #   which means it's a 1 vs. 1 with a specific TA team and a student team.
-    ("2.5.1", 2, 5),
-    ("4.5.1", 4, 5),
-    ("4.10.1", 4, 10),
-    ("8.10.1", 8, 10),
-    ("8.20.1", 8, 20),
-    ("8.20.2", 8, 20),
-    ("8.35.1", 8, 35),
-    ("2.10.10", "TA_degree", 10),
-    ("2.10.20", "TA_fewer", 10),
-    ("2.10.30", "TA_eyeball", 10)
+    ("2.10.10", "TA_degree", 10)
   ],
   "2": [
     ("2.5.2", 2, 5),

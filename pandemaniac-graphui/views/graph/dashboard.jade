@@ -2,6 +2,11 @@ extends ../layout
 
 block content
   .container
+    p
+      | Click on your score to view the competition visualized
+    p
+      | Click on the "Download" button next to your score to
+      | download submission data for the competition
     - var jOffset = 0
     #results.panel-group
       each category in categories
@@ -17,7 +22,7 @@ block content
                 tr
                   th
                   each graph in category.graphs
-                    th= graph
+                    th = graph
                   th total
               tbody
                 each row, i in matrix
@@ -38,6 +43,13 @@ block content
                               data-toggle='popover',
                               data-placement='top',
                               data-teams-list=teamsList)= entry.score
+                              &nbsp;
+                            if selfteam === teams[i]
+                              - var competitiondata = graph + '-' + selfteam + '.json'
+                              a(href='/download/' + competitiondata, 
+                                data-toggle='popover',
+                                data-placement='top',
+                                data-teams-list=teamsList)= 'Download'
                       - j++
                     td= total
           - jOffset += category.graphs.length

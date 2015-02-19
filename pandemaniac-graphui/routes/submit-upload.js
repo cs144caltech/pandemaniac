@@ -131,6 +131,8 @@ module.exports = exports = function(db, client) {
 function verifyLine(line, numRemain, isLast) {
   var res = { isValid: true };
 
+  numRemain = 50 * numRemain;
+
   // Check that not too many lines
   if (!isLast && numRemain === 1) {
     res.isValid = false;
