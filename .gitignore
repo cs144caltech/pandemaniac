@@ -86,4 +86,4 @@ Temporary Items
 *.out
 
 # Nodejs
-pandemaniac-graphui/node_modules/
+pandemaniac-graphui/node_modules/*
