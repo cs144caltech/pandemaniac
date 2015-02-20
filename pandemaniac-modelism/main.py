@@ -80,8 +80,9 @@ def read_nodes(graph, valid_nodes, teams):
       entire_nodes = filter(lambda x: x, \
         [x.strip().replace("\r", "") for x in team_file.read().split("\n")])
       nodes_list = []
+      num_nodes = len(entire_nodes) / GAMES
       for i in range(GAMES):
-          nodes_list.append(entire_nodes[seed_nodes*i: seed_nodes*(i+1)-1])
+          nodes_list.append(entire_nodes[num_nodes*i: num_nodes*(i+1)-1])
       team_file.close()
 
       # The list of nodes a team submits should now be valid.
@@ -146,6 +147,7 @@ def do_main(graph, teams, model):
   # Run the simulation and output the run to file.
   total_results = OrderedDict()
   total_scores = {team:0 for team in teams}
+  final_scores = {team:0 for team in teams}
 
   for i in range(GAMES):
     team_nodes = {}
@@ -156,10 +158,13 @@ def do_main(graph, teams, model):
     (output, results) = simulation.run()
     total_results[str(i)] = results
     for team in teams:
-      total_scores[team] += update_points(results)[team]
+        total_scores[team] += update_points(results)[team]
 
-  for team in teams:
-      total_scores[team] = round(total_scores[team],2)
+  # Update the final score with given rank
+  sorted_scores = sorted(total_scores.items(), key=lambda x: x[1])
+  for i, (team, score) in enumerate(sorted_scores):
+      final_scores[team] = POINT[i]
+
   output_filename = graph + "-" + str(time.time()) + ".txt"
   output_file = open(OUTPUT_FOLDER + output_filename, "w")
   output_file.write(str(json.dumps(total_results)))
@@ -169,7 +174,7 @@ def do_main(graph, teams, model):
   # the database.
   db.test.runs.insert({ \
     "teams": teams, \
-    "scores": total_scores, \
+    "scores": final_scores, \
     "graph": graph, \
     "file": output_filename \
   })
