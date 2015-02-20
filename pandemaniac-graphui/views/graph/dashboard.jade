@@ -23,28 +23,30 @@ block content
               th total
           tbody
             each row, i in matrix
-              - jOffset = 0
-              - var j = jOffset
-              tr
-                td= teams[i]
-                - var sum = 0
-                each category in categories
-                  - var total = 0
-                  each graph in category.graphs
-                    - var col = matrix[i][j]
-                    if col
-                      each entry, k in col
-                        - total += entry.score
-                    - j++
-                  - jOffset += category.graphs.length
-                  td= total
-                  if category.name == "round1"
-                    - sum += total
-                  else if category.name == "round2"
-                    - sum += total * 2
-                  else if category.name == "round3"
-                    - sum += total * 3
-                td= sum
+              if teams[i] !== "zstub" 
+                if teams[i] !== "TAtest"
+                  - jOffset = 0
+                  - var j = jOffset
+                  tr
+                    td= teams[i]
+                    - var sum = 0
+                    each category in categories
+                      - var total = 0
+                      each graph in category.graphs
+                        - var col = matrix[i][j]
+                        if col
+                          each entry, k in col
+                            - total += entry.score
+                        - j++
+                      - jOffset += category.graphs.length
+                      td= total
+                      if category.name == "round1"
+                        - sum += total
+                      else if category.name == "round2"
+                        - sum += total * 2
+                      else if category.name == "round3"
+                        - sum += total * 3
+                    td= sum
     #results.panel-group
       each category in categories
         .panel.panel-default
@@ -59,36 +61,38 @@ block content
                 tr
                   th
                   each graph in category.graphs
-                    th = graph
+                    th= graph
                   th total
               tbody
                 each row, i in matrix
-                  - var j = jOffset
-                  tr
-                    td= teams[i]
-                    - var total = 0
-                    each graph in category.graphs
-                      - var col = matrix[i][j]
-                      td
-                        if col
-                          each entry, k in col
-                            - total += entry.score
-                            if k !== 0
-                              br
-                            - var teamsList = entry.teams.join(' ')
-                            a(href='/graph/' + entry.id,
-                              data-toggle='popover',
-                              data-placement='top',
-                              data-teams-list=teamsList)= entry.score
-                              &nbsp;
-                            if selfteam === teams[i]
-                              - var competitiondata = graph + '-' + selfteam + '.json'
-                              a(href='/download/' + competitiondata, 
-                                data-toggle='popover',
-                                data-placement='top',
-                                data-teams-list=teamsList)= 'Download'
-                      - j++
-                    td= total
+                  if teams[i] !== "TAtest"
+                    if teams[i] !== "zstub"
+                      - var j = jOffset
+                      tr
+                        td= teams[i]
+                        - var total = 0
+                        each graph in category.graphs
+                          - var col = matrix[i][j]
+                          td
+                            if col
+                              each entry, k in col
+                                - total += entry.score
+                                if k !== 0
+                                  br
+                                - var teamsList = entry.teams.join(' ')
+                                a(href='/graph/' + entry.id,
+                                  data-toggle='popover',
+                                  data-placement='top',
+                                  data-teams-list=teamsList)= entry.score
+                                  &nbsp;
+                                if selfteam === teams[i]
+                                  - var competitiondata = graph + '-' + selfteam + '.json'
+                                  a(href='/download/' + competitiondata, 
+                                    data-toggle='popover',
+                                    data-placement='top',
+                                    data-teams-list=teamsList)= 'Download'
+                          - j++
+                        td= total
           - jOffset += category.graphs.length
 
 append js
