@@ -88,5 +88,8 @@ Temporary Items
 # Nodejs
 pandemaniac-graphui/node_modules/*
 
+# Layouts
+pandemaniac-graphui/private/layouts/*.json
+
 # Mongodb config
 mongodb.conf
