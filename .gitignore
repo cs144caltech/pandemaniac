@@ -81,4 +81,12 @@ Temporary Items
 *.swp
 *.swo
 
-credentials.csv
+# Server running
+*.pid
+*.out
+
+# Nodejs
+pandemaniac-graphui/node_modules/*
+
+# Mongodb config
+mongodb.conf
