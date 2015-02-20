@@ -6,11 +6,11 @@ var minute = 60
 
 db.graphs.drop();
 
-load("/Users/jianchichen/Documents/pandemaniac/pandemaniac-graphui/setup/setup-graphs-day1.js");
-load("/Users/jianchichen/Documents/pandemaniac/pandemaniac-graphui/setup/setup-graphs-day2.js");
-load("/Users/jianchichen/Documents/pandemaniac/pandemaniac-graphui/setup/setup-graphs-day3.js");
-load("/Users/jianchichen/Documents/pandemaniac/pandemaniac-graphui/setup/setup-graphs-day4.js");
-load("/Users/jianchichen/Documents/pandemaniac/pandemaniac-graphui/setup/setup-graphs-day5.js");
-load("/Users/jianchichen/Documents/pandemaniac/pandemaniac-graphui/setup/setup-graphs-round1.js");
-load("/Users/jianchichen/Documents/pandemaniac/pandemaniac-graphui/setup/setup-graphs-round2.js");
-load("/Users/jianchichen/Documents/pandemaniac/pandemaniac-graphui/setup/setup-graphs-round3.js");
+load("pandemaniac/pandemaniac-graphui/setup/setup-graphs-day1.js");
+load("pandemaniac/pandemaniac-graphui/setup/setup-graphs-day2.js");
+load("pandemaniac/pandemaniac-graphui/setup/setup-graphs-day3.js");
+load("pandemaniac/pandemaniac-graphui/setup/setup-graphs-day4.js");
+load("pandemaniac/pandemaniac-graphui/setup/setup-graphs-day5.js");
+load("pandemaniac/pandemaniac-graphui/setup/setup-graphs-round1.js");
+load("pandemaniac/pandemaniac-graphui/setup/setup-graphs-round2.js");
+load("pandemaniac/pandemaniac-graphui/setup/setup-graphs-round3.js");
