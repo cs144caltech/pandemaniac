@@ -39,14 +39,20 @@ block content
                             - total += entry.score
                         - j++
                       - jOffset += category.graphs.length
-                      td= total
+                      if total
+                        td= total
+                      else
+                        td
                       if category.name == "round1"
                         - sum += total
                       else if category.name == "round2"
                         - sum += total * 2
                       else if category.name == "round3"
                         - sum += total * 3
-                    td= sum
+                    if sum
+                      td= sum
+                    else
+                      td
     #results.panel-group
       each category in categories
         .panel.panel-default
