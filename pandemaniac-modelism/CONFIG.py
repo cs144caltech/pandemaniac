@@ -23,7 +23,16 @@ DAYS = {
     # ([graph name], [number of players], [number of nodes]) OR
     # ([graph name], [team name], [number of nodes])
     #   which means it's a 1 vs. 1 with a specific TA team and a student team.
-    ("2.10.10", "TA_degree", 10)
+    ("2.5.01", 2, 5),
+    ("4.5.01", 4, 5),
+    ("4.10.01", 4, 10),
+    ("8.10.01", 8, 10),
+    ("8.20.01", 8, 20),
+    ("8.20.01", 8, 20),
+    ("8.35.01", 8, 35),
+    ("2.10.010", "TA_degree", 10),
+    ("2.10.020", "TA_fewer", 10),
+    ("2.10.030", "TA_more", 10)
   ],
   "2": [
     ("2.5.2", 2, 5),
