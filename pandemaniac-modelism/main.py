@@ -71,7 +71,6 @@ def read_nodes(graph, valid_nodes, teams):
     
     try:
       print os.listdir(team_dir)
-      print type(graph)
       team_file_name = max([f for f in os.listdir(team_dir) \
         if f.startswith(graph)])
       team_file = open(team_dir + team_file_name, "r")
@@ -79,10 +78,11 @@ def read_nodes(graph, valid_nodes, teams):
       # Read in all of the nodes and filter out spaces and newlines.
       entire_nodes = filter(lambda x: x, \
         [x.strip().replace("\r", "") for x in team_file.read().split("\n")])
+      print "entire nodes: %d" % len(entire_nodes)
       nodes_list = []
-      num_nodes = len(entire_nodes) / GAMES
+      num_nodes = int(len(entire_nodes) / GAMES)
       for i in range(GAMES):
-          nodes_list.append(entire_nodes[num_nodes*i: num_nodes*(i+1)-1])
+          nodes_list.append(entire_nodes[num_nodes*i: num_nodes*(i+1)])
       team_file.close()
 
       # The list of nodes a team submits should now be valid.
@@ -101,6 +101,9 @@ def read_nodes(graph, valid_nodes, teams):
   for t in filter(lambda x: not x.startswith("TA_"), teams):
     with open(DOWNLOAD_FOLDER + '%s-%s.json' % (graph, t), 'w') as f:
       f.write(json.dumps(team_nodes))
+  print "****"
+  print team_nodes
+  print "****"
   return team_nodes
 
 
@@ -161,9 +164,13 @@ def do_main(graph, teams, model):
         total_scores[team] += update_points(results)[team]
 
   # Update the final score with given rank
-  sorted_scores = sorted(total_scores.items(), key=lambda x: x[1])
+  sorted_scores = sorted(total_scores.items(), key=lambda x: x[1], reverse=True)
+  print "===="
+  print sorted_scores
+  print POINTS
+  print "===="
   for i, (team, score) in enumerate(sorted_scores):
-      final_scores[team] = POINT[i]
+      final_scores[team] = POINTS[i+1]
 
   output_filename = graph + "-" + str(time.time()) + ".txt"
   output_file = open(OUTPUT_FOLDER + output_filename, "w")

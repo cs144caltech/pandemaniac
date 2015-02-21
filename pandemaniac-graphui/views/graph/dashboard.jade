@@ -54,6 +54,7 @@ block content
                     else
                       td
     #results.panel-group
+      - jOffset = 0
       each category in categories
         .panel.panel-default
           .panel-heading
@@ -74,11 +75,14 @@ block content
                   if teams[i] !== "TAtest"
                     if teams[i] !== "zstub"
                       - var j = jOffset
+                      - console.log(j)
                       tr
                         td= teams[i]
                         - var total = 0
                         each graph in category.graphs
+                          - console.log(graph)
                           - var col = matrix[i][j]
+                          - console.log(col)
                           td
                             if col
                               each entry, k in col
