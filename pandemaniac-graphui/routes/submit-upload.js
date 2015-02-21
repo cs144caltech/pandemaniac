@@ -134,16 +134,16 @@ function verifyLine(line, numRemain, isLast) {
   numRemain = 50 * numRemain;
 
   // Check that not too many lines
-  if (!isLast && numRemain === 1) {
-    res.isValid = false;
-    res.message = 'Expected end of file on line %d.';
-  }
+  //if (!isLast && numRemain === 1) {
+    //res.isValid = false;
+    //res.message = 'Expected end of file on line %d.';
+  //}
 
   // Check that not too few lines
-  else if (isLast && numRemain !== 1) {
-    res.isValid = false;
-    res.message = 'Unexpected end of file on line %d.';
-  }
+  //else if (isLast && numRemain !== 1) {
+    //res.isValid = false;
+    //res.message = 'Unexpected end of file on line %d.';
+  //}
 
   // Check that each line is an integer
   if (!/^\d+\s*$/.test(line)) {
