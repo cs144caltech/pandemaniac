@@ -45,7 +45,7 @@ db.graphs.insert({
 , end: end
 });
 db.graphs.insert({
-  name: "8.20.9"
+  name: "8.20.90"
 , category: category
 , file: "8.20.9.json"
 , timeout: minute * 5
