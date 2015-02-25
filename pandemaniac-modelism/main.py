@@ -155,7 +155,10 @@ def do_main(graph, teams, model):
   for i in range(GAMES):
     team_nodes = {}
     for team in team_nodes_list.keys():
-        team_nodes[team] = team_nodes_list[team][i]
+        if len(team_nodes_list[team]) > i:
+            team_nodes[team] = team_nodes_list[team][i]
+        else:
+            team_nodes[team] = []
         print team, team_nodes[team]
     simulation = Simulation(model, team_nodes, adj_list)
     (output, results) = simulation.run()

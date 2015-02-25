@@ -93,3 +93,7 @@ pandemaniac-graphui/private/layouts/*.json
 
 # Mongodb config
 mongodb.conf
+
+# Uploads
+pandemaniac-graphui/private/runs/*
+pandemaniac-graphui/private/uploads/*

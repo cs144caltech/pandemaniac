@@ -71,12 +71,12 @@ def run(adj_list, node_mappings, games=50):
   node_mappings: A dictionary where the key is a name and the value is a array
                  list of seed nodes associated with that name.
   """
-  results = []
+  result = []
   for i in range(games):
       mappings = choose_node_mappings(node_mappings, i)
-      res = run_simulation(adj_list, mappings)
-      results.append((res, mappings))
-  return results
+      res, generation = run_simulation(adj_list, mappings)
+      result.append((res, mappings, generation))
+  return result
 
 
 def choose_node_mappings(node_mappings, i):
@@ -134,7 +134,7 @@ def run_simulation(adj_list, node_mappings):
     # of the epidemic.
     generation += 1
 
-  return get_result(node_mappings.keys(), node_color)
+  return get_result(node_mappings.keys(), node_color), generation
 
 
 def init(color_nodes, node_color):
