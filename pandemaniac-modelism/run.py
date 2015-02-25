@@ -30,14 +30,20 @@ if __name__ == "__main__":
   # Day of the practice rounds or competition.
   parser.add_argument("--day")
   parser.add_argument("--teams", nargs="+")
+  parser.add_argument("-stage")
   args = parser.parse_args()
   (day, orig_teams) = (args.day, args.teams)
 
   config = DAYS[day]
+  if day.startswith("round"):
+    if not args.stage:
+      print "Usage: python run.py --day %s --teams [teams] -stage [16 or 8 or 4]" % day
+      exit(1)
+    stage = args.stage
+    config = [entry for entry in config if entry[0].startswith(stage)]
   # Loop through each graph for this day/competition round.
   for (graph, num_teams, num_nodes) in config:
     teams = [x for x in orig_teams]
-
     team_copy = copy.deepcopy(teams)
     # Filter out teams who have not submitted for this graph.
     for team in team_copy:
