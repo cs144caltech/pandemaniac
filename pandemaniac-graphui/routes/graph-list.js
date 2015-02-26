@@ -30,6 +30,27 @@ module.exports = exports = function(db) {
             // Initialize empty matrix number of teams by number of graphs
             var matrix = prepareMatrix(teams.length, graphs.length);
 
+            var TScore = db.collection('TScore');
+
+            var r1scores = {};
+            var r2scores = {};
+            var r3scores = {};
+
+            TScore.find({}).foreach(function(err, ent) {
+              if (err) {
+                return next(err);
+              }
+              if (ent.round === "round1") {
+                r1scores[ent.team] = ent.score;
+              }
+              if (ent.round === "round2") {
+                r2scores[ent.team] = ent.score;
+              }
+              if (ent.round === "round3") {
+                r3scores[ent.team] = ent.score;
+              }
+            });
+
             // Iterate through all runs
             var runs = db.collection('runs');
             runs.find({}).each(function(err, doc) {
@@ -43,6 +64,9 @@ module.exports = exports = function(db) {
                                                      , teams: teams
                                                      , categories: categories
                                                      , selfteam: req.user
+                                                     , round1: r1scores
+                                                     , round2: r2scores
+                                                     , round3: r3scores
                                                      });
               }
 
