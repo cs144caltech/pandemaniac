@@ -31,15 +31,15 @@ module.exports = exports = function(db) {
             var matrix = prepareMatrix(teams.length, graphs.length);
 
             var TScore = db.collection('TScore');
-
             var r1scores = {};
             var r2scores = {};
             var r3scores = {};
 
-            TScore.find({}).foreach(function(err, ent) {
+            TScore.find({}).each(function(err, ent) {
               if (err) {
                 return next(err);
               }
+              if (ent === null) return;
               if (ent.round === "round1") {
                 r1scores[ent.team] = ent.score;
               }
