@@ -39,14 +39,14 @@ block content
                           td
                       else if category.name == "round2"
                         if (teams[i] in round2)
-                          td= round1[teams[i]]
-                          - sum += round1[teams[i]] * 2
+                          td= round2[teams[i]]
+                          - sum += round2[teams[i]] * 2
                         else
                           td
                       else if category.name == "round3"
                         if (teams[i] in round3)
-                          td= round1[teams[i]]
-                          - sum += round1[teams[i]] * 3
+                          td= round3[teams[i]]
+                          - sum += round3[teams[i]] * 3
                         else
                           td
                       else
@@ -88,14 +88,11 @@ block content
                   if teams[i] !== "TAtest"
                     if teams[i] !== "zstub"
                       - var j = jOffset
-                      - console.log(j)
                       tr
                         td= teams[i]
                         - var total = 0
                         each graph in category.graphs
-                          - console.log(graph)
                           - var col = matrix[i][j]
-                          - console.log(col)
                           td
                             if col
                               each entry, k in col
